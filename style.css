@@ -1,0 +1,76 @@
+
+
+
+body{
+    justify-content: center;
+    text-align: center;
+    margin-top: 150px;
+    
+
+}
+
+.main_body{
+    background-color: beige;
+    margin: 0px 50px;
+    /* margin-top: 50px; */
+    padding-bottom: 30px;
+    padding-top: 20px;
+}
+.scoreboard{
+   display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+.points{
+    /* width: 18px; */
+    padding: 2px 4px;
+    margin: 2px;
+    border: 2px solid black;
+    border-radius: 50%;
+}
+
+.run{
+    display: flex;
+    justify-content: space-around;
+    margin: 0px 30px;
+    margin-top: 20px;
+}
+
+.ball{
+    
+    display: flex;
+    justify-content: space-around;
+    margin: 0px 30px;
+margin-top: 20px;
+}
+
+.input{
+color: white;
+    margin: 0px 4px;
+background-color: blue;
+padding: 7px 12px;
+border-radius: 5px;
+
+}
+
+
+.score {
+    margin-top:20px ;
+}
+
+.total {
+    margin-top: 20px;
+    font-weight: 1000;
+}
+
+
+.disabled{
+     pointer-events: none; 
+    opacity: 0.9; 
+    background-color: #a1a1a1; /* Optional: changes background color */
+    color: black;
+}
+
+
+
