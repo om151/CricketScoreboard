@@ -13,6 +13,7 @@ let newInningButton = document.getElementById("newIning");
 let winScorePrint = document.querySelector(".winScorePrint");
 let new_over;
 let over_count = 0;
+let inningDisplay = document.querySelector(".inning")
 
 wicket = 10;
 
@@ -24,13 +25,16 @@ let team = {
 };
 
 let teamNo = 1;
-
+let inning = 1;
 let winner;
 
 let totalOver = prompt("how many over match...?");
 let over = totalOver;
 
+inningDisplay.textContent = `${inning} Inning Start`;
 function btnclick() {
+  inningDisplay.textContent = ``;
+
   if (ball_left >= 1 && wicket > 0) {
     let btn = this;
     let value = btn.getAttribute("value");
@@ -114,10 +118,11 @@ function btnclick() {
         break;
     }
     ++teamNo;
+    ++inning;
 
     if (teamNo == 2) {
       let newIning = document.createElement("div");
-      newIning.textContent = "New Inning";
+      newIning.textContent = "Second Inning";
       newIning.classList.add("input");
       newInningButton.appendChild(newIning);
 
@@ -153,6 +158,7 @@ function overChange() {
 }
 
 function newIningStart() {
+  inningDisplay.textContent = `${inning} Inning Start`;
   pr_over_run_display.innerText = "";
   ttl_run_display.innerText = "";
   newInningButton.innerText = "";
