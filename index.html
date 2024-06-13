@@ -1,60 +1,229 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    
+let all_btns = document.querySelectorAll(".input");
+let ttl_run = 0;
+let run = 0;
 
-<div class="main_body">
-<h1>Cricket scoreboard</h1>
-<div class="scoreboard">
+let ball_left = 6;
+let scoreboard = document.querySelector(".scoreboard");
+let ball_div = document.querySelector(".ball");
+let score = document.querySelector(".score");
+let ttl_run_display = document.querySelector(".total");
+let pr_over_run_display = document.querySelector(".per_over");
 
-    <!-- <h3 class="points">4</h3> -->
+let newInningButton = document.getElementById("newIning");
+let winScorePrint = document.querySelector(".winScorePrint");
+let new_over;
+let over_count = 0;
+let inningDisplay = document.querySelector(".inning")
 
-</div>
+wicket = 10;
 
-<div class="run">
- 
-    <div id="one" class="input" value="1" >1</div>
-    <div id="two" class="input" value="2">2</div>
-    <div id="three" class="input" value="3">3</div>
-    <div id="four" class="input" value="4">4</div>
-    <div id="five" class="input" value="5">5</div>
-    <div id="six" class="input" value="6">6</div>
+let team = {
+  team1_run: 0,
+  team2_run: 0,
+  team1_wicket: 0,
+  team2_wicket: 0,
+};
 
-</div>
+let teamNo = 1;
+let inning = 1;
+let winner;
 
-<div class="ball">
+let totalOver = prompt("how many over match...?");
+let over = totalOver;
 
-<div id="wide" class="input" value="1">wide</div>
-<div id="dott_ball" class="input" value="0">dott ball</div>
-<div id="wicket" class="input" value="0">wicket
-</div>
-<div id="No_ball" class="input" value="1">No ball</div>
+inningDisplay.textContent = `${inning} Inning Start`;
+function btnclick() {
+  inningDisplay.textContent = ``;
 
-</div>
+  if (ball_left >= 1 && wicket > 0) {
+    let btn = this;
+    let value = btn.getAttribute("value");
+    let in_txt = btn.innerText;
 
+    let point = document.createElement("h3");
+    point.textContent = in_txt;
+    point.classList.add("points");
 
-<div class="score">
+    scoreboard.appendChild(point);
+    run = run + +value;
+    ball_left--;
 
-    
-    <div class="per_over">
-        
-    </div>
-    <div class="total"></div>
+    if (btn.innerText == "wide") {
+      ball_left++;
+    }
 
-</div>
+    if (btn.innerText == "No ball") {
+      ball_left++;
+    }
 
-<div id="newIning"></div>
+    if (btn.innerText == "wicket") {
+      wicket--;
+    }
+  }
 
-<div class="winScorePrint"></div>
+  if (ball_left == 0) {
+    over_count++;
+    over--;
+    all_btns.forEach((btn) => {
+      btn.classList.add("disabled");
+    });
 
-</div>
+    if (over > 0) {
+      new_over = document.createElement("div");
+      new_over.textContent = "New over";
+      new_over.classList.add("input");
+      new_over.id = "newOver";
+      ball_div.appendChild(new_over);
 
-<script src="script.js"></script>
-</body>
-</html>
+      new_over.addEventListener("click", overChange);
+
+      ball_left = 6;
+
+      for (btn of all_btns) {
+        btn.addEventListener("click", btnclick);
+      }
+    }
+
+    ttl_run = ttl_run + run;
+
+    ttl_run_display.innerText = `total run : ${ttl_run} wicket : ${
+      10 - wicket
+    }`;
+
+    let over_run = document.createElement("h4");
+    over_run.textContent = `Team ${teamNo}, Over ${over_count} : ${run} run `;
+    pr_over_run_display.appendChild(over_run);
+    run = 0;
+  }
+
+  if (wicket == 0 || over == 0) {
+    all_btns.forEach((btn) => {
+      btn.classList.add("disabled");
+    });
+
+    ttl_run_display.innerText = `total run : ${ttl_run} wicket : ${
+      10 - wicket
+    }`;
+
+    let over_run = document.createElement("h4");
+
+    switch (teamNo) {
+      case 1:
+        team.team1_run = ttl_run;
+        team.team1_wicket = 10 - wicket;
+        break;
+      case 2:
+        team.team2_run = ttl_run;
+        team.team2_wicket = 10 - wicket;
+        break;
+    }
+    ++teamNo;
+    ++inning;
+
+    if (teamNo == 2) {
+      let newIning = document.createElement("div");
+      newIning.textContent = "Second Inning";
+      newIning.classList.add("input");
+      newInningButton.appendChild(newIning);
+
+      newIning.addEventListener("click", newIningStart);
+      resetInningScore();
+    }
+
+    if (teamNo == 3) {
+      winnerPrint();
+    }
+  }
+  if (teamNo == 2 && ttl_run + run > team.team1_run) {
+    team.team2_run = ttl_run + run;
+    // teamNo++;
+
+    winnerPrint();
+  }
+}
+for (btn of all_btns) {
+  btn.addEventListener("click", btnclick);
+}
+
+let newOver = document.getElementById("newOver");
+
+function overChange() {
+  run = 0;
+  scoreboard.innerText = "";
+
+  new_over.remove();
+  all_btns.forEach((btn) => {
+    btn.classList.remove("disabled");
+  });
+}
+
+function newIningStart() {
+  inningDisplay.textContent = `${inning} Inning Start`;
+  pr_over_run_display.innerText = "";
+  ttl_run_display.innerText = "";
+  newInningButton.innerText = "";
+
+  all_btns.forEach((btn) => {
+    btn.classList.remove("disabled");
+  });
+
+  for (btn of all_btns) {
+    btn.addEventListener("click", btnclick);
+  }
+}
+
+function winnerPrint() {
+  btnDisable();
+  if (totalOver > 1) {
+    new_over.remove();
+  }
+
+  ttl_run_display.innerText = `total run : ${ttl_run + run} wicket : ${
+    10 - wicket
+  }`;
+  if (team.team1_run > team.team2_run) {
+    winner = document.createElement("h3");
+    winner.textContent = `Team : 1 is Win by ${
+      team.team1_run - team.team2_run
+    } Run`;
+    winner.style.color = " green";
+    newInningButton.appendChild(winner);
+  } else if (team.team2_run > team.team1_run) {
+    winner = document.createElement("h3");
+    winner.textContent = `Team : 2 is Win by ${
+      team.team2_run - team.team1_run
+    } Run`;
+    winner.style.color = " green";
+    newInningButton.appendChild(winner);
+  } else if ((team.team2_run = team.team1_run)) {
+    winner = document.createElement("h3");
+    winner.textContent = `Match Draw`;
+    winner.style.color = " green";
+    newInningButton.appendChild(winner);
+  }
+
+  let team1Score = document.createElement("h5");
+  let team2Score = document.createElement("h5");
+
+  team1Score.textContent = `Team 1 score : ${team.team1_run}/${team.team1_wicket}`;
+  team2Score.textContent = `Team 2 score : ${team.team2_run}/${team.team2_wicket}`;
+
+  winScorePrint.appendChild(team1Score);
+  winScorePrint.appendChild(team2Score);
+}
+
+function btnDisable() {
+  all_btns.forEach((btn) => {
+    btn.classList.add("disabled");
+  });
+}
+
+function resetInningScore() {
+  over = totalOver;
+  ball_left = 6;
+  ttl_run = 0;
+  run = 0;
+  over_count = 0;
+  wicket = 10;
+  scoreboard.innerText = "";
+}
