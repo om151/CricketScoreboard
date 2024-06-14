@@ -47,14 +47,14 @@ body{
 margin: auto;
 /* margin: 0px 30px; */
 margin-top: 20px;
+flex-wrap: wrap;
 
 
 }
 
 .ball>div{
-    height: 30px;
-    width: auto;
-    padding: auto;
+  margin-top: 10px;
+
 
 }
 
@@ -81,7 +81,7 @@ border-radius: 5px;
 .disabled{
      pointer-events: none; 
     opacity: 0.9; 
-    background-color: #a1a1a1; /* Optional: changes background color */
+    background-color: #a1a1a1; 
     color: black;
 }
 
