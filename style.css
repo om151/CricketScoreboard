@@ -11,7 +11,7 @@ body{
 
 .main_body{
     background-color: beige;
-    margin: 0px 50px;
+    margin: 0px 30px;
     /* margin-top: 50px; */
     padding-bottom: 30px;
     padding-top: 20px;
@@ -33,7 +33,9 @@ body{
 .run{
     display: flex;
     justify-content: space-around;
-    margin: 0px 30px;
+    /* margin: 0px 30px; */
+    
+    margin: auto;
     margin-top: 20px;
 }
 
@@ -41,8 +43,19 @@ body{
     
     display: flex;
     justify-content: space-around;
-    margin: 0px 30px;
+  
+margin: auto;
+/* margin: 0px 30px; */
 margin-top: 20px;
+
+
+}
+
+.ball>div{
+    height: 30px;
+    width: auto;
+    padding: auto;
+
 }
 
 .input{
